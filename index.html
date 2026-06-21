@@ -57,6 +57,17 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    @media (pointer:coarse) {
+      body {
+        cursor: auto;
+      }
+
+      #cur-dot,
+      #cur-ring {
+        display: none;
+      }
+    }
+
     a {
       text-decoration: none;
       color: inherit;
@@ -364,6 +375,134 @@
 
     .nav-links a:hover::after {
       width: 100%;
+    }
+
+    /* MOBILE NAV BURGER */
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 38px;
+      height: 38px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 0;
+      z-index: 2100;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .nav-burger span {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: var(--g6);
+      border-radius: 2px;
+      transition: transform .32s cubic-bezier(.22, 1, .36, 1), opacity .25s, background .25s;
+    }
+
+    .nav-burger.open span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+      background: var(--p5);
+    }
+
+    .nav-burger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-burger.open span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+      background: var(--p5);
+    }
+
+    .nav-mobile {
+      position: fixed;
+      inset: 0;
+      z-index: 1900;
+      background: rgba(7, 7, 13, .98);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-12px);
+      transition: opacity .32s cubic-bezier(.22, 1, .36, 1), transform .32s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .32s;
+    }
+
+    .nav-mobile.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition: opacity .32s cubic-bezier(.22, 1, .36, 1), transform .32s cubic-bezier(.22, 1, .36, 1), visibility 0s;
+    }
+
+    .nav-mobile-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-mobile-links a {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      color: var(--g6);
+      opacity: 0;
+      transform: translateY(14px);
+      transition: color .25s;
+    }
+
+    .nav-mobile.open .nav-mobile-links a {
+      animation: navItemIn .5s cubic-bezier(.22, 1, .36, 1) forwards;
+    }
+
+    .nav-mobile.open .nav-mobile-links li:nth-child(1) a {
+      animation-delay: .08s;
+    }
+
+    .nav-mobile.open .nav-mobile-links li:nth-child(2) a {
+      animation-delay: .14s;
+    }
+
+    .nav-mobile.open .nav-mobile-links li:nth-child(3) a {
+      animation-delay: .2s;
+    }
+
+    .nav-mobile.open .nav-mobile-links li:nth-child(4) a {
+      animation-delay: .26s;
+    }
+
+    .nav-mobile.open .nav-mobile-links li:nth-child(5) a {
+      animation-delay: .32s;
+    }
+
+    @keyframes navItemIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .nav-mobile-links a:active {
+      color: var(--p5);
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    @media (hover:hover) {
+      .nav-mobile-links a:hover {
+        color: var(--p6);
+      }
     }
 
     /* HERO */
@@ -1587,6 +1726,14 @@
         display: none;
       }
 
+      .nav-burger {
+        display: flex;
+      }
+
+      section {
+        padding: 70px 0;
+      }
+
       .about-layout {
         grid-template-columns: 1fr;
         gap: 36px;
@@ -1594,30 +1741,131 @@
 
       .photo-frame {
         max-width: 240px;
+        margin: 0 auto;
       }
 
       .proj-grid {
         grid-template-columns: 1fr;
       }
 
+      .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+      }
+
       .contact-cards {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
+      }
+
+      .c-card {
+        width: 100%;
       }
 
       .hero-btns {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
+        width: 100%;
+      }
+
+      .hero-btns .btn {
+        text-align: center;
+        justify-content: center;
       }
 
       .about-chips {
         grid-template-columns: 1fr 1fr;
+      }
+
+      footer {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        padding: 22px 6%;
+      }
+
+      #ann-bar {
+        padding: 7px 16px;
+      }
+
+      .ann-item {
+        padding: 0 24px;
       }
     }
 
     @media (max-width:480px) {
       .about-chips {
         grid-template-columns: 1fr;
+      }
+
+      .ctr {
+        padding: 0 5.5%;
+      }
+
+      nav {
+        padding: 14px 5.5%;
+      }
+
+      .hero-name {
+        font-size: clamp(2.4rem, 11vw, 3.4rem);
+      }
+
+      .hero-role {
+        font-size: .95rem;
+      }
+
+      section {
+        padding: 56px 0;
+      }
+
+      .stitle {
+        font-size: clamp(1.7rem, 7vw, 2.3rem);
+      }
+
+      .proj-body {
+        padding: 18px;
+      }
+
+      .sk-card {
+        padding: 18px 16px;
+      }
+
+      .nav-mobile-links a {
+        font-size: 1.3rem;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width:360px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-brand {
+        font-size: 1.05rem;
+      }
+    }
+
+    /* Prevent horizontal scroll/jank from blurred blobs on mobile */
+    @media (max-width:768px) {
+      .blob {
+        filter: blur(90px);
+      }
+    }
+
+    /* Respect reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
       }
     }
   </style>
@@ -1668,7 +1916,21 @@
         <li><a href="#education">Education</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
+      <button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navMobile">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
+
+    <!-- MOBILE NAV OVERLAY -->
+    <div class="nav-mobile" id="navMobile">
+      <ul class="nav-mobile-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
 
     <!-- HERO -->
     <section id="hero">
@@ -1795,14 +2057,6 @@
             </div>
             <div class="sk-pct">Expert · 81%</div>
           </div>
-          <div class="sk-card rv">
-            <span class="sk-icon">🚀</span>
-            <div class="sk-name"> (Ongoing project) SYMPHORA</div>
-            <div class="sk-bar-bg">
-              <div class="sk-bar-fill" data-width="40"></div>
-            </div>
-            <div class="sk-pct">Proficient · 40%</div>
-          </div>
         </div>
       </div>
     </section>
@@ -1815,12 +2069,12 @@
         <p class="slabel rv">What I've Built</p>
         <h2 class="stitle rv">Projects</h2>
         <div class="proj-grid">
+
+          <!-- Project 1: Nova Solar -->
           <div class="proj-card rv">
             <div class="proj-thumb">
-              <div class="proj-thumb">
-                <img src="images/nova-solar.jpg" alt="Nova Solar Project Screenshot">
-                <div class="proj-overlay"></div>
-              </div>
+              <img src="images/nova-solar.jpg" alt="Nova Solar Project Screenshot">
+              <div class="proj-overlay"></div>
             </div>
             <div class="proj-body">
               <div class="proj-tags">
@@ -1849,6 +2103,8 @@
               </div>
             </div>
           </div>
+
+          <!-- Project 2: Portfolio -->
           <div class="proj-card rv">
             <div class="proj-thumb">
               <img src="images/port-foilo.jpg"
@@ -1879,34 +2135,70 @@
               </div>
             </div>
           </div>
+
+          <!-- Project 3: New Project (placeholder — edit me) -->
           <div class="proj-card rv">
             <div class="proj-thumb">
-              <img src="images/symptom-tracker.jpg" alt="AI Symptom Tracker SaaS - Launching Soon - Currently Building">
+              <img src="images/new-project.jpg" alt="New Project Screenshot — replace with your own image">
               <div class="proj-overlay"></div>
             </div>
 
             <div class="proj-body">
               <div class="proj-tags">
-                <span class="ptag">AI SaaS</span>
-                <span class="ptag">In Progress</span>
-                <span class="ptag">PDF Gen</span>
+                <span class="ptag">Edit Tag</span>
+                <span class="ptag">Edit Tag</span>
+                <span class="ptag">Edit Tag</span>
               </div>
-              <div class="proj-title">AI Symptom Tracker</div>
+              <div class="proj-title">New Project Name</div>
               <span class="proj-status ps-wip">In Development</span>
               <div class="proj-desc">
-                An AI-powered symptom storage tool designed especially for elderly users. Sign in with Gmail, chat with
-                a custom AI, and log symptoms like "had nausea in the morning." The AI stores entries with timestamps
-                and context. When visiting a doctor, users generate a professional, doctor-friendly PDF summary of all
-                recorded symptoms — no more struggling to remember what happened and when.
+                Replace this with a short description of what the project does, who it's for, and what makes it
+                interesting. Two to three sentences works best.
                 <br><br>
-                <em style="color:var(--g3);font-size:.8rem;">Note: This app stores symptoms only — it does not provide
-                  medical advice.</em>
+                <em style="color:var(--g3);font-size:.8rem;">Placeholder card — swap the image, tags, title, status, description, and link below with your new project's details.</em>
               </div>
               <div class="proj-foot">
-                <span class="proj-btn" style="opacity:.5;cursor:default;">Coming Soon</span>
+                <a href="#" class="proj-btn">
+                  View Project
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
+
+          <!-- Project 4: Module Prep -->
+          <div class="proj-card rv">
+            <div class="proj-thumb">
+              <!-- Edit this src when you have an image for it -->
+              <img src="images/module-prep.jpg" alt="Module Prep Project">
+              <div class="proj-overlay"></div>
+            </div>
+            <div class="proj-body">
+              <div class="proj-tags">
+                <span class="ptag">Tailwind CSS</span>
+                <span class="ptag">MariaDB</span>
+                <span class="ptag">React</span>
+              </div>
+              <div class="proj-title">Module Prep</div>
+              <span class="proj-status ps-personal">Academic Tool</span>
+              <div class="proj-desc">
+                A streamlined resource hub built to help university students organize and access study modules, specifically tailored for science and technical subjects.
+                <br><br>
+                <em style="color:var(--g3);font-size:.8rem;">[Edit description here when you are ready to launch!]</em>
+              </div>
+              <div class="proj-foot">
+                <a href="#" class="proj-btn">
+                  View Project
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -2078,26 +2370,54 @@
     })();
 
     /* CURSOR */
-    var dot = document.getElementById('cur-dot');
-    var ring = document.getElementById('cur-ring');
-    var mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; });
-    (function cLoop() {
-      dot.style.left = mx + 'px';
-      dot.style.top = my + 'px';
-      rx += (mx - rx) * 0.1;
-      ry += (my - ry) * 0.1;
-      ring.style.left = rx + 'px';
-      ring.style.top = ry + 'px';
-      requestAnimationFrame(cLoop);
-    })();
-    document.querySelectorAll('a, button, .sk-card, .proj-card, .c-card, .a-chip, .edu-card').forEach(function (el) {
-      el.addEventListener('mouseenter', function () { document.body.classList.add('hov'); });
-      el.addEventListener('mouseleave', function () { document.body.classList.remove('hov'); });
+    var isTouch = window.matchMedia('(pointer:coarse)').matches;
+    if (!isTouch) {
+      var dot = document.getElementById('cur-dot');
+      var ring = document.getElementById('cur-ring');
+      var mx = 0, my = 0, rx = 0, ry = 0;
+      document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; });
+      (function cLoop() {
+        dot.style.left = mx + 'px';
+        dot.style.top = my + 'px';
+        rx += (mx - rx) * 0.1;
+        ry += (my - ry) * 0.1;
+        ring.style.left = rx + 'px';
+        ring.style.top = ry + 'px';
+        requestAnimationFrame(cLoop);
+      })();
+      document.querySelectorAll('a, button, .sk-card, .proj-card, .c-card, .a-chip, .edu-card').forEach(function (el) {
+        el.addEventListener('mouseenter', function () { document.body.classList.add('hov'); });
+        el.addEventListener('mouseleave', function () { document.body.classList.remove('hov'); });
+      });
+    }
+
+    /* MOBILE NAV */
+    var burger = document.getElementById('navBurger');
+    var mobileMenu = document.getElementById('navMobile');
+    function closeMobileMenu() {
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.remove('open');
+      document.body.classList.remove('menu-open');
+    }
+    burger.addEventListener('click', function () {
+      var isOpen = burger.classList.toggle('open');
+      mobileMenu.classList.toggle('open', isOpen);
+      document.body.classList.toggle('menu-open', isOpen);
+      burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    mobileMenu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', closeMobileMenu);
+    });
+    window.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 768) closeMobileMenu();
     });
 
     /* TYPING */
-    var words = ['Vibe Coder', 'Founder of Symphora', 'Student', 'AI Enthusiast'];
+    var words = ['Vibe Coder', 'Student', 'AI Enthusiast', 'Builder'];
     var wIdx = 0, cIdx = 0, delMode = false;
     var tEl = document.getElementById('typed');
     function typeWriter() {
@@ -2167,14 +2487,15 @@
 
     /* ACTIVE NAV */
     var secs = document.querySelectorAll('section[id]');
-    var navAs = document.querySelectorAll('.nav-links a');
+    var navAs = document.querySelectorAll('.nav-links a, .nav-mobile-links a');
     window.addEventListener('scroll', function () {
       var sy = window.scrollY;
       secs.forEach(function (s) {
         if (sy >= s.offsetTop - 155) {
           navAs.forEach(function (a) { a.style.color = ''; });
-          var act = document.querySelector('.nav-links a[href="#' + s.id + '"]');
-          if (act) act.style.color = 'var(--p5)';
+          document.querySelectorAll('.nav-links a[href="#' + s.id + '"], .nav-mobile-links a[href="#' + s.id + '"]').forEach(function (act) {
+            act.style.color = 'var(--p5)';
+          });
         }
       });
       document.querySelector('nav').style.background = sy > 55 ? 'rgba(7,7,13,.96)' : 'rgba(7,7,13,.88)';
@@ -2182,5 +2503,4 @@
 
   </script>
 </body>
-
 </html>
